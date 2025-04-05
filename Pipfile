@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+asyncpg = "*"
+passlib = "*"
+pyjwt = "*"
+fastapi-mail = "*"
+transformers = "*"
+sqlalchemy = "*"
+pydantic = "*"
+slowapi = "*"
+pydantic-settings = "*"
+loguru = "*"
+
+[dev-packages]
+python-dotenv = "*"
+pylint = "*"
+flake8 = "*"
+black = "*"
+isort = "*"
+mypy = "*"
+
+[requires]
+python_version = "3.13"
