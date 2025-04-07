@@ -2,14 +2,14 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 # from app.api import auth, users, resumes, templates, ai
 from app.core.config import settings
-# from app.db.init_db import init_db
+from app.db.init_db import init_db
 from .middleware import setup_middleware
 from .logger import logger
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup actions
-    # init_db()
+    await init_db()
     logger.info("🚀 Application startup complete.")
     yield
     # Shutdown actions

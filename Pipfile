@@ -6,16 +6,17 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
-asyncpg = "*"
 passlib = "*"
 pyjwt = "*"
 fastapi-mail = "*"
 transformers = "*"
-sqlalchemy = "*"
 pydantic = "*"
 slowapi = "*"
 pydantic-settings = "*"
 loguru = "*"
+asyncpg = "*"
+sqlalchemy = {extras = ["asyncio"], version = "*"}
+psycopg2 = "*"
 
 [dev-packages]
 python-dotenv = "*"
@@ -24,6 +25,8 @@ flake8 = "*"
 black = "*"
 isort = "*"
 mypy = "*"
+alembic = "*"
+pgcli = "*"
 
 [requires]
 python_version = "3.13"
