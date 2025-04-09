@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.db.init_db import init_db
 from .middleware import setup_middleware
+from app.api.v1.endpoints.api import api_router
 from .logger import logger
 
 @asynccontextmanager
@@ -26,6 +27,7 @@ app = FastAPI(
 # Include Middleware (CORS)
 setup_middleware(app)
 
+app.include_router(api_router, prefix="/api")
 # Include API routers
 # app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 # app.include_router(users.router, prefix="/api/users", tags=["Users"])

@@ -6,8 +6,6 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
-passlib = "*"
-pyjwt = "*"
 fastapi-mail = "*"
 transformers = "*"
 pydantic = "*"
@@ -17,6 +15,8 @@ loguru = "*"
 asyncpg = "*"
 sqlalchemy = {extras = ["asyncio"], version = "*"}
 psycopg2 = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
+pyjwt = "*"
 
 [dev-packages]
 python-dotenv = "*"
