@@ -10,6 +10,7 @@ from app.api.v1.endpoints.auth.service import get_password_hash, verify_password
 from app.api.v1.endpoints.auth.utils import oauth2_scheme, get_current_user
 from app.db.session import async_session
 from app.core.config import settings
+from app.utils import form_data_as
 
 router = APIRouter()
 
@@ -37,9 +38,10 @@ async def register(user_in: UserCreate):
         return new_user
 
 @router.post("/login", response_model=Token, tags=["Authentication"])
-async def login(user_in: UserLogin):
+async def login(user_in: UserLogin = Depends(form_data_as(UserLogin))):
     async with async_session() as session:
-        query = select(User).where(User.email == user_in.email)
+        # query = select(User).where(User.email == user_in.email) # Let's use this in prod
+        query = select(User).where(User.username == user_in.username)
         result = await session.execute(query)
         user = result.scalar_one_or_none()
         if not user or not verify_password(user_in.password, user.hashed_password):

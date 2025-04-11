@@ -1,5 +1,6 @@
 # app/api/v1/endpoints/auth/schemas.py
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 class UserCreate(BaseModel):
     username: str
@@ -7,7 +8,8 @@ class UserCreate(BaseModel):
     password: str
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    username: str
+    # email: EmailStr
     password: str
 
 class UserOut(BaseModel):

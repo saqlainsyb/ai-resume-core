@@ -6,6 +6,7 @@ from app.db.init_db import init_db
 from .middleware import setup_middleware
 from app.api.v1.endpoints.api import api_router
 from .logger import logger
+from fastapi.openapi.utils import get_openapi
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,13 +29,6 @@ app = FastAPI(
 setup_middleware(app)
 
 app.include_router(api_router, prefix="/api")
-# Include API routers
-# app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
-# app.include_router(users.router, prefix="/api/users", tags=["Users"])
-# app.include_router(resumes.router, prefix="/api/resumes", tags=["Resumes"])
-# app.include_router(templates.router, prefix="/api/templates", tags=["Templates"])
-# app.include_router(ai.router, prefix="/api/ai", tags=["AI Suggestions"])
-
 
 @app.get("/", tags=["Health"])
 def read_root():

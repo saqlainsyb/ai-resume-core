@@ -17,6 +17,7 @@ sqlalchemy = {extras = ["asyncio"], version = "*"}
 psycopg2 = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 pyjwt = "*"
+python-multipart = "*"
 
 [dev-packages]
 python-dotenv = "*"
