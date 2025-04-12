@@ -12,4 +12,4 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.datetime.now(datetime.timezone.utc))
     # Example relationship—adjust or remove if you have a separate resumes model.
-    # resumes = relationship("Resume", back_populates="user")
+    resumes = relationship("Resume", back_populates="user", cascade="all, delete-orphan")
