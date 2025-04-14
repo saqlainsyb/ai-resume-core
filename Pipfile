@@ -18,6 +18,8 @@ psycopg2 = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 pyjwt = "*"
 python-multipart = "*"
+jinja2 = "*"
+weasyprint = "*"
 
 [dev-packages]
 python-dotenv = "*"

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Optional: Google Font (Josefin Sans) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap">
+
+  <title>{{ user.name }} - {{ user.title }} Resume</title>
+
+  <style>
+    /* ---------- Global Reset & Box Sizing ---------- */
+    html {
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #212121;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- Page Setup for WeasyPrint (A4) ---------- */
+    @page {
+      size: A4;
+      margin: 20mm; /* Ensures margins on all sides */
+    }
+
+    /* ---------- Main Container ---------- */
+    .resume {
+      width: 210mm; /* A4 width */
+      margin: 0 auto; /* Center horizontally */
+      /* background-color: #ffffff;  Uncomment if needed */
+      padding: 20mm 20mm 16mm 20mm; /* Slightly reduced bottom padding */
+      box-sizing: border-box;
+      page-break-after: avoid; /* Try to avoid an extra page break */
+    }
+    
+    /* Hide any last divider that might contribute extra space */
+    .resume hr.divider:last-of-type {
+      display: none;
+    }
+
+    /* ---------- Top Section: Photo, Title, Name ---------- */
+    .top-section {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .photo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .job-title {
+      font-size: 12px;
+      font-weight: 400;
+      color: #999;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    /* ---------- Divider (Horizontal Rule) ---------- */
+    .divider {
+      border: 0;
+      height: 1px;
+      background: #eee;
+      margin: 16px 0;
+    }
+
+    /* ---------- Profile & Contacts Layout ---------- */
+    .profile-contacts {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .profile-col,
+    .contacts-col {
+      width: 48%;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 30px;
+      height: 2px;
+      background: #ccc;
+    }
+    .profile-text {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ---------- Contacts List with Grey Bullets ---------- */
+    .contacts-list {
+      list-style: none;
+      padding-left: 0;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .contact-item {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 8px;
+    }
+    .contact-item::before {
+      content: "•";
+      color: #999;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* ---------- Section Wrappers (Education, Employment, Technologies) ---------- */
+    .section {
+      margin-bottom: 16px;
+    }
+
+    /* Education & Employment Items with Dates on the Right */
+    .edu-item, .job-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .edu-left, .job-left {
+      width: 75%;
+    }
+    .edu-right, .job-right {
+      width: 25%;
+      text-align: right;
+      font-size: 12px;
+      color: #999;
+      flex-shrink: 0;
+    }
+    .edu-inst, .job-title-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    .edu-degree, .job-description {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    /* ---------- Technologies (Optional) ---------- */
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tech-item {
+      background: #f9f9f9;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+      color: #555;
+      display: inline-block;
+    }
+
+    /* ---------- Print Fidelity ---------- */
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="resume">
+    <!-- Top Section: Photo, Title, Name -->
+    <section class="top-section">
+      {% if photo_base64 %}
+      <div class="photo">
+        <img src="{{ photo_base64 }}" alt="Photo of {{ user.name }}">
+      </div>
+      {% endif %}
+      {% if photo_base64 %}
+      <div class="title-block">
+        <div class="job-title">{{ user.title }}</div>
+        <div class="name">{{ user.name }}</div>
+      </div>
+      {% else %}
+      <div class="title-block" style="text-align: center; width: 100%;">
+        <div class="name">{{ user.name }}</div>
+        <div class="job-title">{{ user.title }}</div>
+      </div>
+      {% endif %}
+    </section>
+
+    <hr class="divider">
+
+    <!-- Profile & Contacts -->
+    <section class="profile-contacts">
+      <div class="profile-col">
+        <h2 class="section-title">Profile</h2>
+        <p class="profile-text">
+          {{ user.summary }}
+        </p>
+      </div>
+      <div class="contacts-col">
+        <h2 class="section-title">Contacts</h2>
+        <ul class="contacts-list">
+          {% for item in user.contacts %}
+          <li class="contact-item">{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Education Section -->
+    <section class="section education">
+      <h2 class="section-title">Education</h2>
+      {% for edu in user.education %}
+      <div class="edu-item">
+        <div class="edu-left">
+          <div class="edu-inst">{{ edu.institution }}</div>
+          <div class="edu-degree">{{ edu.degree }}</div>
+        </div>
+        <div class="edu-right">
+          {{ edu.start_date }}–{{ edu.end_date }}
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+    <hr class="divider">
+
+    <!-- Employment Section -->
+    <section class="section employment">
+      <h2 class="section-title">Employment</h2>
+      {% for job in user.experience %}
+      <div class="job-item">
+        <div class="job-left">
+          <div class="job-title-text">{{ job.title }} at {{ job.company }}</div>
+          <div class="job-description">{{ job.description }}</div>
+        </div>
+        <div class="job-right">
+          {{ job.start_date }}–{{ job.end_date }}
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+    {% if user.technologies %}
+    <hr class="divider">
+    <!-- Technologies Section -->
+    <section class="section technologies">
+      <h2 class="section-title">Technologies</h2>
+      <div class="tech-list">
+        {% for tech in user.technologies %}
+        <div class="tech-item">{{ tech }}</div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>
