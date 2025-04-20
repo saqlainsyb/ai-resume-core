@@ -10,6 +10,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from uuid import uuid4
 from weasyprint import HTML
+from app.core.templates import templates
 import base64
 import os
 
@@ -33,9 +34,6 @@ app = FastAPI(
 ## Static directory
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
-
-# Use Jinja2Templates
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 # Include Middleware (CORS)
 setup_middleware(app)
