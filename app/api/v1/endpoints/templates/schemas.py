@@ -3,11 +3,11 @@ from datetime import datetime
 
 class TemplateBase(BaseModel):
     name: str
-    file_path: str
 
 class TemplateOut(TemplateBase):
     id: int
     created_at: datetime
+    preview_image: str 
 
     class Config:
         orm_mode = True

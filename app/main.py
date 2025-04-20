@@ -265,7 +265,7 @@ async def generate_pdf(request: Request):
         "photo_base64": photo_base64
     }
 
-    html_content = templates.get_template("template03.jinja2").render(context)
+    html_content = templates.get_template("template01.jinja2").render(context)
     pdf = HTML(string=html_content, base_url=BASE_DIR).write_pdf()
 
     save_dir = os.path.join(BASE_DIR, "generated_resumes")
