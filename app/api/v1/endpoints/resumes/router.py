@@ -1,11 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Request
-from fastapi.responses import HTMLResponse
+from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
+from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import async_session
 from app.api.v1.endpoints.resumes import schemas, service
 from app.api.v1.endpoints.auth.utils import get_current_user
 from app.api.v1.endpoints.auth.models import User
 from app.core.templates import templates
+from weasyprint import HTML
+import base64
+import io
 
 router = APIRouter()
 
@@ -94,3 +97,40 @@ async def preview_resume(
 
     template_name = f"template0{data.template_id}.jinja2"
     return templates.TemplateResponse(template_name, context)
+
+@router.post(
+    "/preview/pdf",
+    response_model=schemas.PdfBase64Out,
+    tags=["Preview"],
+)
+async def preview_pdf_base64(data: schemas.ResumeCreate, request: Request = None):
+    # 1) Build Jinja context (same as HTML preview)
+    raw = data.model_dump()
+    user_ctx = {
+        "name": f"{raw.get('firstName','')} {raw.get('lastName','')}".strip(),
+        "title": raw.get("title", ""),
+        "photo_base64": None,
+        "summary": raw.get("summary", ""),
+        "phone": raw.get("phone", ""),
+        "email": raw.get("email", ""),
+        "location": raw.get("location", ""),
+        "linkedin": raw.get("linkedin", ""),
+        "skills": raw.get("skills", []),
+        "experience": raw.get("experiences", []),
+        "education": [
+            {**edu, "gpa": edu.get("gpa","")} for edu in raw.get("education", [])
+        ],
+    }
+    html_content = templates \
+        .get_template(f"template0{data.template_id}.jinja2") \
+        .render(request=request, user=user_ctx)
+
+    # 2) Convert HTML to PDF using WeasyPrint
+    pdf_buffer = io.BytesIO()
+    HTML(string=html_content).write_pdf(pdf_buffer)
+    pdf_bytes = pdf_buffer.getvalue()
+    pdf_buffer.close()
+
+    # 3) Encode to Base64 and return JSON
+    b64 = base64.b64encode(pdf_bytes).decode("utf-8")
+    return JSONResponse(content={"pdf_base64": b64})

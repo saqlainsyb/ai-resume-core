@@ -49,3 +49,6 @@ class ResumeOut(ResumeBase):
 
     class Config:
         orm_mode = True
+
+class PdfBase64Out(BaseModel):
+    pdf_base64: str
