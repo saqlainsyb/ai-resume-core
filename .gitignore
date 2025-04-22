@@ -174,4 +174,4 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 generate_gpt.ps1
-gpt.txt
+gpt-backend.txt
