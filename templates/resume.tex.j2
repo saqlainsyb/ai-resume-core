@@ -1,0 +1,151 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+  \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \small#1 & #2 \\
+  \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Huge \scshape <VAR>name</VAR>} \\ \vspace{2pt}
+
+    \small <VAR>phone</VAR> $|$ \href{mailto:<VAR>email</VAR>}{\underline{<VAR>email</VAR>}} $|$ 
+    \href{<VAR>linkedin_url</VAR>}{\underline{<VAR>linkedin_text</VAR>}} $|$
+    \href{<VAR>github_url</VAR>}{\underline{<VAR>github_text</VAR>}}
+\end{center}
+ 
+<BLOCK>if experiences</BLOCK>
+  \section{Experience}
+  \resumeSubHeadingListStart
+  <BLOCK>for exp in experiences</BLOCK>
+    \resumeSubheading{<VAR>exp.role</VAR>}{<VAR>exp.start</VAR> -- <VAR>exp.end</VAR>}
+                     {<VAR>exp.company</VAR>}{<VAR>exp.location</VAR>}
+    <BLOCK>if exp.details</BLOCK>
+    \resumeItemListStart
+      <BLOCK>for item in exp.details</BLOCK>
+        \resumeItem{<VAR>item | escape_latex</VAR>}
+      <BLOCK>endfor</BLOCK>
+    \resumeItemListEnd
+    <BLOCK>endif</BLOCK>
+  <BLOCK>endfor</BLOCK>
+  \resumeSubHeadingListEnd
+<BLOCK>endif</BLOCK>
+
+<BLOCK>if projects</BLOCK>
+\section{Projects}
+\resumeSubHeadingListStart
+<BLOCK>for proj in projects</BLOCK>
+  \resumeProjectHeading
+    {\textbf{<VAR>proj.title</VAR>} $|$ \emph{<VAR>proj.stack</VAR>}}{}
+  \resumeItemListStart
+    <BLOCK>for item in proj.details</BLOCK>
+      \resumeItem{<VAR>item | escape_latex</VAR>}
+    <BLOCK>endfor</BLOCK>
+  \resumeItemListEnd
+<BLOCK>endfor</BLOCK>
+\resumeSubHeadingListEnd
+<BLOCK>endif</BLOCK>
+
+
+<BLOCK>if education</BLOCK>
+\section{Education}
+\resumeSubHeadingListStart
+  <BLOCK>for edu in education</BLOCK>
+    \resumeSubheading
+      {<VAR>edu.institution</VAR>}{<VAR>edu.board</VAR>}
+      {<VAR>edu.degree</VAR>}{<VAR>edu.end</VAR>}
+    \resumeItemListStart
+      <BLOCK>for note in edu.notes</BLOCK>
+        \resumeItem{<VAR>note | escape_latex</VAR>}
+      <BLOCK>endfor</BLOCK>
+    \resumeItemListEnd
+  <BLOCK>endfor</BLOCK>
+\resumeSubHeadingListEnd
+<BLOCK>endif</BLOCK>
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{\item{
+    \textbf{Languages}{: <VAR>skills.languages</VAR>} \\
+    \textbf{Frameworks}{: <VAR>skills.frameworks</VAR>} \\
+    \textbf{Frontend Technologies}{: <VAR>skills.frontend</VAR>} \\
+    \textbf{Databases}{: <VAR>skills.databases</VAR>} \\
+    \textbf{Developer Tools}{: <VAR>skills.tools</VAR>} \\
+    \textbf{Methodologies}{: <VAR>skills.methodologies</VAR>}
+  }}
+\end{itemize}
+
+\end{document}

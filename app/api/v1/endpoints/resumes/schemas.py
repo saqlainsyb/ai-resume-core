@@ -1,54 +1,41 @@
 from pydantic import BaseModel
-from datetime import datetime
+from typing import List, Optional, Dict
 
-class ResumeBase(BaseModel):
-    title: str
-    template_id: int
-
-from pydantic import BaseModel
-from typing import List
-
-class ExperienceIn(BaseModel):
-    company: str
+class Job(BaseModel):
     role: str
+    company: str
     start: str
-    end: str
-    details: str
-    current: bool
+    end: Optional[str]
+    details: List[str]
 
-class EducationIn(BaseModel):
-    institution: str
+class Project(BaseModel):
+    title: str
+    stack: str
+    details: List[str]
+
+class Education(BaseModel):
     degree: str
+    institution: str
     start: str
     end: str
+    notes: Optional[List[str]]
 
-class ResumeCreate(ResumeBase):
-    firstName: str
-    lastName:  str
-    email:     str
-    phone:     str
-    summary:   str
-    experiences: List[ExperienceIn]
-    education:   List[EducationIn]
-    skills:      List[str]
+class Skills(BaseModel):
+    languages: str
+    frameworks: str
+    frontend: str
+    databases: str
+    tools: str
+    methodologies: str
 
-    model_config = {
-      "extra": "ignore"   # or "forbid", if you want to catch typos
-    }
-    
-
-class ResumeUpdate(BaseModel):
-    title: str | None = None
-    template_id: int | None = None
-
-class ResumeOut(ResumeBase):
-    id: int
-    user_id: int
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        orm_mode = True
-
-class PdfBase64Out(BaseModel):
-    pdf_base64: str
+class ResumeData(BaseModel):
+    name: str
+    email: str
+    phone: str
+    linkedin: str
+    github: str
+    summary: Optional[str]
+    experience: List[Job]
+    projects: List[Project]
+    education: List[Education]
+    skills: Skills

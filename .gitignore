@@ -175,3 +175,4 @@ cython_debug/
 .pypirc
 generate_gpt.ps1
 gpt-backend.txt
+data

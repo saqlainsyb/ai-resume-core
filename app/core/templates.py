@@ -1,8 +1,8 @@
 # app/core/templates.py
 from pathlib import Path
-from fastapi.templating import Jinja2Templates
+from jinja2 import Environment, FileSystemLoader
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent  # .../app
-TEMPLATES_DIR = PROJECT_ROOT.parent / "templates"      # .../templates
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+TEMPLATES_DIR = PROJECT_ROOT / "templates"
 
-templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
+latex_env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
